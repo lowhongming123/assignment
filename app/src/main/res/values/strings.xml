@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Diet &amp; Fitness Plan App</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="signin">Sign In</string>
+    <string name="guidance1">Don\'t Have An Account ? Sign Up Now <a href="https://www.hongkiat.com/blog/mobile-login-signup-form-examples/" ></a></string>
+</resources>
