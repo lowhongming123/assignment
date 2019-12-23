@@ -7,4 +7,5 @@
     <string name="email">Email</string>
     <string name="confirmpassword">Confirm Password</string>
     <string name="register">Create An Account</string>
+    <string name="setting">Setting</string>
 </resources>

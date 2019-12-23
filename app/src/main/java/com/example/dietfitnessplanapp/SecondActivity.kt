@@ -12,26 +12,27 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        val message = intent.getStringExtra(MainActivity.KEY)
-        val number=intent.getIntExtra(MainActivity.KEY2,0)
-        textViewMessage.text= String.format("%s  %s ",getString(R.string.message),message)
-        textViewLuckyNumber.text=String.format("%s  %s ",getString(R.string.yourLuckyNumber),number)
+        //val message = intent.getStringExtra(MainActivity.KEY)
+        //val number=intent.getIntExtra(MainActivity.KEY2,0)
+        //textViewMessage.text= String.format("%s  %s ",getString(R.string.message),message)
+       // textViewLuckyNumber.text=String.format("%s  %s ",getString(R.string.yourLuckyNumber),number)
 
-        buttonDone.setOnClickListener(){
+       // buttonDone.setOnClickListener(){
 
-            if(!editTextReply.text.isEmpty()){
+          //  if(!editTextReply.text.isEmpty()){
 
-                val reply=editTextReply.text.toString()
-                val intent=getIntent()   //return the MainActivity intent
-                intent.putExtra(MainActivity.KEY3,reply)
+                //val reply=editTextReply.text.toString()
+                //val intent=getIntent()   //return the MainActivity intent
+                //intent.putExtra(MainActivity.KEY3,reply)
 
                 //inform the MainActivity that everything is ok
-                setResult(Activity.RESULT_OK,intent)
-            }else{
-                setResult(Activity.RESULT_CANCELED)
-            }
+                //setResult(Activity.RESULT_OK,intent)
+            //}else{
+                //setResult(Activity.RESULT_CANCELED)
+            //}
 
-            finish()
-        }
+           // finish()
+
+       // }
     }
 }
