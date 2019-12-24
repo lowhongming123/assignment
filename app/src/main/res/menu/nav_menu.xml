@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group>
+        <item
+            android:id="@+id/nav_weight"
+            android:icon="@drawable/ic_weight"
+            android:title="Weight"/>
+        <item
+            android:id="@+id/nav_diary"
+            android:icon="@drawable/ic_diary"
+            android:title="Diary"/>
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_help"
+            android:title="Help"/>
+    </group>
+
+
+    <item android:title="Account Settings">
+        <menu>
+            <item
+                android:id="@+id/nav_updateProfile"
+                android:icon="@drawable/ic_update"
+                android:title="Update Profile"/>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_signout"
+                android:title="Sign Out"/>
+        </menu>
+    </item>
+</menu>

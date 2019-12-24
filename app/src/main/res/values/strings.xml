@@ -8,4 +8,11 @@
     <string name="confirmpassword">Confirm Password</string>
     <string name="register">Create An Account</string>
     <string name="setting">Setting</string>
+    <string name="currentweight">Current Weight</string>
+    <string name="kg1">60.0 kg</string>
+    <string name="start">Start</string>
+    <string name="goal">Goal</string>
+    <string name="kg2">60.0kg</string>
+    <string name="kg3">55.0kg</string>
+    <string name="msg1">Last Weigh In-20 days ago</string>
 </resources>

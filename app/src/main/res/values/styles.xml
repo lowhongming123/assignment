@@ -17,14 +17,19 @@
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 
-    <style name="buttonStyle2" >
+    <style name="labelStyle1" >
         <!-- Customize your theme here. -->
-        <item name="android:background">@android:color/holo_blue_bright</item>
+        <item name="android:background">@color/primaryColor</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    #eeeeee
 
 </resources>
