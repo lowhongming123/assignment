@@ -15,13 +15,8 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import android.R
-import com.jjoe64.graphview.GraphView
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.BarGraphSeries;
 import androidx.core.app.ComponentActivity
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
@@ -55,11 +50,7 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
 
-        val dp = arrayOf<DataPoint>(DataPoint(0, 0), DataPoint(1, 1), DataPoint(2, 2))
-        val barGraphSeries = BarGraphSeries(dp)
-        val graph = findViewById(R.id.graph) as GraphView
-        graph.visibility = View.VISIBLE
-        barGraphSeries.resetData(dp);
+
 
     }
 

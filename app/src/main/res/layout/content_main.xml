@@ -136,18 +136,7 @@
             app:layout_constraintStart_toStartOf="@+id/textViewCurrentWeightValue"
             app:layout_constraintTop_toBottomOf="@+id/textViewCurrentWeightValue" />
 
-        <com.jjoe64.graphview.GraphView
-            id="@+id/graph"
-            layout_height="200dip"
-            layout_width="match_parent"
-            android:layout_width="345dp"
-            android:layout_height="378dp"
-            android:
-            android:
-            android:
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2" />
+
         / >
 
     </androidx.constraintlayout.widget.ConstraintLayout>

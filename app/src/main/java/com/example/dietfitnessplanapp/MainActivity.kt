@@ -5,22 +5,41 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.TextView
 import android.widget.Toast
+import androidx.room.Room
 
 
 class MainActivity : AppCompatActivity() {
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        var db = Room.databaseBuilder(applicationContext, AppDB::class.java, "UserDB").build()
+
+        Thread {
+            var user = User_Entity()
+            user.user_id = 1
+            user.username = "ming"
+            user.password = "123"
+
+            db.appDAO().saveUser(user)
+
+            db.appDAO().readUser().forEach {
+                Log.i("@AKTDEV", "User Id is: ${it.user_id}")
+                Log.i("@AKTDEV", "Username is: ${it.username}")
+                Log.i("@AKTDEV", "Password is: ${it.password}")
+            }
 
 
-        buttonSignIn.setOnClickListener(){
+        }.start()
+
+
+
+        buttonSignIn.setOnClickListener() {
             login();
 
         }
@@ -31,16 +50,25 @@ class MainActivity : AppCompatActivity() {
 
         textView_clickable.setOnClickListener {
 
-            val intent = Intent(this,SecondActivity::class.java)
+            val intent = Intent(this, SecondActivity::class.java)
             startActivity(intent)
             // Toast.makeText(this@MainActivity, "You clicked on sign up ", Toast.LENGTH_SHORT).show()
             //register();
         }
     }
 
-    private fun login(){
+    private fun login() {
 
-    /*
+        var user = User_Entity()
+
+        val username = editTextUsername.text.toString()
+        val password = editTextPassword.text.toString()
+
+        if (username.equals(user.username)) {
+            val intent = Intent(this, WeightActivity::class.java)
+            startActivity(intent)
+        }
+        /*
         val intent= Intent(Intent.ACTION_VIEW)
         val phone:String = "tel :0123456789"
 
@@ -51,10 +79,9 @@ class MainActivity : AppCompatActivity() {
         }
         */
 
-        val intent = Intent(this,WeightActivity::class.java)
-        startActivity(intent)
-
     }
+
+}
 
  /*
     private fun register(){
