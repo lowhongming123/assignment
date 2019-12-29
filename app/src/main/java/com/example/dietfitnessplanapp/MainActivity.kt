@@ -14,12 +14,12 @@ import androidx.room.Room
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var userEntity:User_Entity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        var db = Room.databaseBuilder(applicationContext, AppDB::class.java, "UserDB").build()
-
+        /*
         Thread {
             var user = User_Entity()
             user.user_id = 1
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         }.start()
 
-
+*/
 
         buttonSignIn.setOnClickListener() {
             login();
@@ -59,12 +59,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun login() {
 
-        var user = User_Entity()
+        /*
+        var db=Room.databaseBuilder(applicationContext,AppDB::class.java,
+            "user_db").build()
+
+
+
+        userEntity.username = "ming"
+        userEntity.password = "123"
+        db.appDAO().saveUser(userEntity)
+
+
 
         val username = editTextUsername.text.toString()
         val password = editTextPassword.text.toString()
-
-        if (username.equals(user.username)) {
+*/
+        if (username.equals("ming")) {
             val intent = Intent(this, WeightActivity::class.java)
             startActivity(intent)
         }

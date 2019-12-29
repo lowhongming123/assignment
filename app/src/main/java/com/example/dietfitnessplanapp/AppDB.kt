@@ -6,8 +6,32 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import java.security.AccessControlContext
 
-@Database(entities = [(User_Entity::class)],version = 1, exportSchema = false)
-abstract class AppDB:RoomDatabase(){
+@Database(entities = arrayOf(User_Entity::class),version = 1)
+public abstract class AppDB:RoomDatabase(){
+
     abstract fun appDAO():App_DAO
+
+    companion object{
+
+        @Volatile
+        private var INSTANCE : AppDB?=null
+
+        fun getDatabase(context: Context):AppDB{
+            var tempDB= INSTANCE
+            if(tempDB!=null){
+                return tempDB
+            }
+
+            synchronized(this){
+                val instance=Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDB::class.java,
+                    "user_db"
+                ).build()
+                INSTANCE=instance
+                return instance
+            }
+        }
+    }
 }
 
