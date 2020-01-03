@@ -4,6 +4,9 @@ package com.example.dietfitnessplanapp
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_second.*
 
 class SecondActivity : AppCompatActivity() {
@@ -12,10 +15,16 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
+
+
+        //testing()
         //val message = intent.getStringExtra(MainActivity.KEY)
         //val number=intent.getIntExtra(MainActivity.KEY2,0)
         //textViewMessage.text= String.format("%s  %s ",getString(R.string.message),message)
        // textViewLuckyNumber.text=String.format("%s  %s ",getString(R.string.yourLuckyNumber),number)
+
+
+
 
        // buttonDone.setOnClickListener(){
 
@@ -34,5 +43,27 @@ class SecondActivity : AppCompatActivity() {
            // finish()
 
        // }
+    }
+
+    private fun testing(){
+
+        val username= editTextUsername.text.toString()
+        val email=editTextEmail.text.toString()
+        val password=editTextPassword.text.toString()
+        val confirmPassword=editTextConfirmPassword.text.toString()
+
+        val ref = FirebaseDatabase.getInstance().getReference("users")
+        val id = ref.push().key
+
+        val user = User(id.toString(),username,email,password,confirmPassword)
+        // store the user object into the unique Id which is userId
+        // addOnCompleteListener chk whether the data had saved inside database
+        ref.child(id.toString()).setValue(user).addOnCompleteListener {
+            Toast.makeText(applicationContext,"User record has been saved successfully.",Toast.LENGTH_LONG).show()
+
+        }
+
+        finish()
+
     }
 }

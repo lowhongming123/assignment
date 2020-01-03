@@ -9,12 +9,10 @@ import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.TextView
 import android.widget.Toast
-import androidx.room.Room
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var userEntity:User_Entity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +47,8 @@ class MainActivity : AppCompatActivity() {
         val textView_clickable = findViewById(R.id.textViewGuidance) as TextView
 
         textView_clickable.setOnClickListener {
-
-            val intent = Intent(this, SecondActivity::class.java)
-            startActivity(intent)
             // Toast.makeText(this@MainActivity, "You clicked on sign up ", Toast.LENGTH_SHORT).show()
-            //register();
+            register();
         }
     }
 
@@ -74,10 +69,11 @@ class MainActivity : AppCompatActivity() {
         val username = editTextUsername.text.toString()
         val password = editTextPassword.text.toString()
 */
-        if (username.equals("ming")) {
-            val intent = Intent(this, WeightActivity::class.java)
+
+
+        val intent = Intent(this, WeightActivity::class.java)
             startActivity(intent)
-        }
+
         /*
         val intent= Intent(Intent.ACTION_VIEW)
         val phone:String = "tel :0123456789"
@@ -89,6 +85,11 @@ class MainActivity : AppCompatActivity() {
         }
         */
 
+    }
+
+    private fun register(){
+        val intent = Intent(this, SecondActivity::class.java)
+        startActivity(intent)
     }
 
 }
