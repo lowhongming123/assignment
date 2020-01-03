@@ -15,6 +15,27 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
+        val context=this
+        var db=DataBaseHandler(context)
+
+        buttonRegister.setOnClickListener{
+            if(editTextUsername.text.isEmpty()||editTextEmail.text.isEmpty()||editTextPassword.text.isEmpty()||editTextConfirmPassword.text.isEmpty()){
+                Toast.makeText(context,"Please fill in the form!!!",Toast.LENGTH_SHORT).show()
+            }else{
+                if(!editTextPassword.text.toString().equals(editTextConfirmPassword.text.toString())){
+                    Toast.makeText(context,"Your password and confirm password are not matched !!",Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    var user=User(editTextUsername.text.toString(),editTextEmail.text.toString(),editTextPassword.text.toString())
+                    db.insertDate(user)
+
+                    finish()
+                }
+            }
+
+        }
+
+
 
 
         //testing()
@@ -45,7 +66,8 @@ class SecondActivity : AppCompatActivity() {
        // }
     }
 
-    private fun testing(){
+    /*
+    private fun register(){
 
         val username= editTextUsername.text.toString()
         val email=editTextEmail.text.toString()
@@ -66,4 +88,6 @@ class SecondActivity : AppCompatActivity() {
         finish()
 
     }
+    */
+
 }

@@ -37,8 +37,30 @@ class MainActivity : AppCompatActivity() {
 
 */
 
+        val context=this
+        var db=DataBaseHandler(context)
+
         buttonSignIn.setOnClickListener() {
-            login();
+            if(editTextUsername.text.isEmpty()||editTextPassword.text.isEmpty()){
+                Toast.makeText(context,"Please fill in the form!!!",Toast.LENGTH_SHORT).show()
+            }
+            else{
+                var data=db.readData()
+
+                for(i in 0..data.size-1){
+                    if(editTextUsername.text.toString().equals(data.get(i).username)){
+                        if(editTextPassword.text.toString().equals(data.get(i).password)){
+                            login()
+                        }
+                        else{
+                            Toast.makeText(context,"Invalid username or password!!",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
+
+
+            }
 
         }
 
