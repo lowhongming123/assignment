@@ -2,11 +2,11 @@ package com.example.dietfitnessplanapp
 
 
 import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_second.*
 
 class SecondActivity : AppCompatActivity() {
@@ -28,7 +28,13 @@ class SecondActivity : AppCompatActivity() {
                 else{
                     var user=User(editTextUsername.text.toString(),editTextEmail.text.toString(),editTextPassword.text.toString())
                     db.insertDate(user)
+                    Toast.makeText(context,"Register successfully !!",Toast.LENGTH_SHORT).show()
 
+                    val intent = Intent(this, GetUserDetailsActivity::class.java)
+                    val username= editTextUsername.text.toString()
+
+                    intent.putExtra(KEY,username)
+                    startActivity(intent)  // An intent without return value
                     finish()
                 }
             }
@@ -89,5 +95,10 @@ class SecondActivity : AppCompatActivity() {
 
     }
     */
+
+    companion object{
+        const val KEY = "com.example.dietfitnessplanapp.KEY"
+
+    }
 
 }

@@ -16,4 +16,29 @@
     <string name="kg3">55.0kg</string>
     <string name="msg1">Last Weigh In-20 days ago</string>
     <string name="read">Read</string>
+    <string name="msg2">Please fill in the form below...</string>
+    <string name="ques1">What is your target now?</string>
+    <string name="opt1">Lose Weight</string>
+    <string name="opt2">Maintain Weight</string>
+    <string name="opt3">Gain Weight</string>
+    <string name="ques2">How many weight do you want to lose/maintain/gain ?</string>
+    <string name="kg">KG</string>
+    <string name="ques3">What is your gender?</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="ques4">What is your current weight ?</string>
+    <string name="ques5">What is your current height?</string>
+    <string name="height">CM</string>
+    <string name="ques6">What is your country?</string>
+    <string name="submit">Submit</string>
+
+    <string-array name="country">
+        <item>Malaysia</item>
+        <item>China</item>
+        <item>Japan</item>
+        <item>Singapore</item>
+        <item>Thailand</item>
+        <item>Korea</item>
+        <item>Taiwan</item>
+    </string-array>
 </resources>
