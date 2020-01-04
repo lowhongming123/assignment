@@ -100,9 +100,9 @@ class DataBaseHandler(var context: Context):SQLiteOpenHelper(context, DATABASE_N
 
     fun deleteData(){
         val db=this.writableDatabase
-        db.delete(TABLE_NAME, COL_ID+"=?", arrayOf(1.toString()))
+        //db.delete(TABLE_NAME, COL_ID+"=?", arrayOf(1.toString()))
         //IF WANT TO DELETE ALL THE RECORD
-            //db.delete(TABLE_NAME, null,null)
+            db.delete(TABLE_NAME, null,null)
         db.close()
     }
 }
