@@ -21,24 +21,24 @@
         app:srcCompat="@drawable/main" />
 
     <TextView
-        android:id="@+id/textViewUsername"
+        android:id="@+id/textViewEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/username"
+        android:text="@string/email"
         app:layout_constraintStart_toStartOf="@+id/imageView5"
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
     <EditText
-        android:id="@+id/editTextUsername"
-        android:layout_width="0dp"
+        android:id="@+id/editTextEmail"
+        android:layout_width="299dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/imageView5"
         app:layout_constraintStart_toStartOf="@+id/imageView5"
-        app:layout_constraintTop_toBottomOf="@+id/textViewUsername" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewEmail" />
 
     <TextView
         android:id="@+id/textViewPassword"
@@ -46,8 +46,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/password"
-        app:layout_constraintStart_toStartOf="@+id/editTextUsername"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -87,7 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonSignIn"
         tools:ignore="HardcodedText" />
     app:layout_constraintEnd_toEndOf="@+id/buttonSignIn"
-        app:layout_constraintStart_toStartOf="@+id/buttonSignIn"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSignIn" />
+    app:layout_constraintStart_toStartOf="@+id/buttonSignIn"
+    app:layout_constraintTop_toBottomOf="@+id/buttonSignIn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

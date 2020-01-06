@@ -31,6 +31,7 @@
     <string name="height">CM</string>
     <string name="ques6">What is your country?</string>
     <string name="submit">Submit</string>
+    <string name="required">Please fill in the input!!</string>
 
     <string-array name="country">
         <item>Malaysia</item>

@@ -1,39 +1,51 @@
 package com.example.dietfitnessplanapp
 
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_second.*
 
 class SecondActivity : AppCompatActivity() {
+
+    private val db = FirebaseDatabase.getInstance()
+    private val users = db.getReference("User")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
         val context=this
-        var db=DataBaseHandler(context)
+//        var db=DataBaseHandler(context)
 
         buttonRegister.setOnClickListener{
-            if(editTextUsername.text.isEmpty()||editTextEmail.text.isEmpty()||editTextPassword.text.isEmpty()||editTextConfirmPassword.text.isEmpty()){
+            if(editTextUsername.text.isEmpty()||editTextUsername.text.isEmpty()||editTextPassword.text.isEmpty()||editTextConfirmPassword.text.isEmpty()){
                 Toast.makeText(context,"Please fill in the form!!!",Toast.LENGTH_SHORT).show()
             }else{
                 if(!editTextPassword.text.toString().equals(editTextConfirmPassword.text.toString())){
                     Toast.makeText(context,"Your password and confirm password are not matched !!",Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    var user=User(editTextUsername.text.toString(),editTextEmail.text.toString(),editTextPassword.text.toString())
-                    db.insertDate(user)
-                    Toast.makeText(context,"Register successfully !!",Toast.LENGTH_SHORT).show()
+                    val _username= editTextUsername.text.toString()
+                    val _email=editTextEmail.text.toString()
+                    val _password=editTextPassword.text.toString()
+//                    var user=User(editTextUsername.text.toString(),editTextEmail.text.toString(),editTextPassword.text.toString())
+//                    db.insertDate(user)
+
+
 
                     val intent = Intent(this, GetUserDetailsActivity::class.java)
-                    val username= editTextUsername.text.toString()
 
-                    intent.putExtra(KEY,username)
+                    val user = User(username = _username, email = _email, password = _password)
+
+                    //Using phone as a key
+                    users.child(_username).setValue(user)
+
+                    Toast.makeText(context,"Register successfully !!",Toast.LENGTH_SHORT).show()
+
+                    intent.putExtra(KEY,_username)
                     startActivity(intent)  // An intent without return value
                     finish()
                 }

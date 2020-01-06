@@ -6,17 +6,30 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+
 
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var auth: FirebaseAuth
+    private val db = FirebaseDatabase.getInstance()
+    private val users = db.getReference("User")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        auth = FirebaseAuth.getInstance()
         /*
         Thread {
             var user = User_Entity()
@@ -38,40 +51,61 @@ class MainActivity : AppCompatActivity() {
 */
 
         val context=this
-        var db=DataBaseHandler(context)
         var counter = 0
 
         buttonSignIn.setOnClickListener() {
             counter = 0
 
-            if(editTextUsername.text.isEmpty()||editTextPassword.text.isEmpty()){
-                Toast.makeText(context,"Please fill in the form!!!",Toast.LENGTH_SHORT).show()
+
+            if (editTextEmail.text.isEmpty() || editTextPassword.text.isEmpty()) {
+                Toast.makeText(context, "Please fill in the form!!!", Toast.LENGTH_SHORT).show()
+
             }
             else{
-                var data=db.readData()
+                if (!Patterns.EMAIL_ADDRESS.matcher(editTextEmail.text.toString()).matches()) {
+                    Toast.makeText(context, "Please enter a valid email!!!", Toast.LENGTH_SHORT).show()
 
-                for(i in 0..data.size-1){
-                    if(editTextUsername.text.toString().equals(data.get(i).username)){
-                        if(editTextPassword.text.toString().equals(data.get(i).password)){
-                            counter=0
+                }else{
+                    auth.createUserWithEmailAndPassword(
+                        editTextEmail.text.toString(),
+                        editTextPassword.text.toString()
+                    ).addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
                             login()
-                        }
-                        else{
-                            Toast.makeText(context,"Invalid username or password!!",Toast.LENGTH_SHORT).show()
-                        }
+                        } else {
+                            Toast.makeText(context, "Please enter valid username and password!!!", Toast.LENGTH_SHORT).show()
 
-                    }else{
-                       counter++
+                        }
                     }
                 }
-
-                if(counter>0){
-                    Toast.makeText(context,"Invalid username or password!!",Toast.LENGTH_SHORT).show()
-                }
-
-
-
             }
+
+
+
+
+
+
+//                var data=db.readData()
+//
+//                for(i in 0..data.size-1){
+//                    if(editTextUsername.text.toString().equals(data.get(i).username)){
+//                        if(editTextPassword.text.toString().equals(data.get(i).password)){
+//                            counter=0
+//                            login()
+//                        }
+//                        else{
+//                            Toast.makeText(context,"Invalid username or password!!",Toast.LENGTH_SHORT).show()
+//                        }
+//
+//                    }else{
+//                       counter++
+//                    }
+//                }
+//
+//                if(counter>0){
+//                    Toast.makeText(context,"Invalid username or password!!",Toast.LENGTH_SHORT).show()
+//                }
+
 
         }
 
@@ -84,6 +118,18 @@ class MainActivity : AppCompatActivity() {
             register();
         }
     }
+
+    public override fun onStart(){
+        super.onStart()
+         val currentUser = auth.currentUser
+        updateUI(currentUser)
+    }
+
+    fun updateUI(currentUser:FirebaseUser?){
+
+    }
+
+
 
     private fun login() {
 
