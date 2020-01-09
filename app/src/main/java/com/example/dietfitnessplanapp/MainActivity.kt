@@ -15,7 +15,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.example.dietfitnessplanapp.User
 
 
-
 class MainActivity : AppCompatActivity(),View.OnClickListener {
 
     private var mAuth: FirebaseAuth? = null
@@ -60,6 +59,8 @@ class MainActivity : AppCompatActivity(),View.OnClickListener {
                     val user = mAuth!!.currentUser
                     Toast.makeText(applicationContext, "Login successful", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, WeightActivity::class.java)
+                    it.uuid=user.uid
+                    intent.putExtra(KEY,it)
                     startActivity(intent)
 
 
@@ -96,6 +97,12 @@ class MainActivity : AppCompatActivity(),View.OnClickListener {
         val intent = Intent(this, SecondActivity::class.java)
         startActivity(intent)
     }
+
+    companion object{
+        const val KEY = "com.example.dietfitnessplanapp.KEY"
+
+    }
+
 
 }
 

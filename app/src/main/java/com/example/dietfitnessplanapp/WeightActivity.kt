@@ -12,7 +12,33 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_weight.*
 import kotlinx.android.synthetic.main.content_main.*
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.example.dietfitnessplanapp.User
+
+
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
+
+
+
+
 class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+
+    private val TAG = "WeightActivity"
+
 
 
     lateinit var toolbar: Toolbar
@@ -23,8 +49,10 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weight)
 
-//        val expectedWeight = intent.getStringExtra(MainActivity.KEY)
-//        val currentWeight = intent.getStringExtra(MainActivity.KEY2)
+
+
+
+
 //        textViewStartValue.text= String.format("%s KG",expectedWeight)
 //        textViewCurrentWeightValue.text= String.format("%s KG",expectedWeight)
 //        textViewGoalValue.text= String.format("%s KG",currentWeight)
@@ -67,4 +95,7 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
+
+
+
 }

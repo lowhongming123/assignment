@@ -12,39 +12,19 @@ import androidx.core.view.accessibility.AccessibilityRecordCompat
 import kotlinx.android.synthetic.main.activity_second.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.FirebaseDatabase
-import com.example.dietfitnessplanapp.User
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DatabaseReference
 
 
 class SecondActivity : AppCompatActivity(), View.OnClickListener {
 
     private val TAG = "SecondActivity"
-
-    //access database table
-    private var userDatabase: DatabaseReference? = null
-    //to get current database pointer
-    private var userReference: DatabaseReference? = null
-
-    //read data
-    private var userListener:ChildEventListener? = null
-
     private var mAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        //to get the root folder
-        userDatabase = FirebaseDatabase.getInstance().reference
-        //to access to the table
-        userReference = FirebaseDatabase.getInstance().getReference("user")
-
-
         buttonRegister.setOnClickListener(this)
         mAuth = FirebaseAuth.getInstance()
-
 
     }
 
@@ -53,13 +33,14 @@ class SecondActivity : AppCompatActivity(), View.OnClickListener {
         val i = view!!.id
 
         when (i) {
-            R.id.buttonRegister -> register(editTextEmail.text.toString(),editTextPassword.text.toString())
+            R.id.buttonRegister -> register(editTextUsername.text.toString(),editTextEmail.text.toString(),editTextPassword.text.toString(),editTextConfirmPassword.text.toString())
         }
     }
 
-    private fun register(email: String, password: String) {
+    private fun register(username: String, email: String, password: String, confirmPassword: String) {
 
-        if (!validateForm(email, password)) {
+
+        if (!validateForm(username, email, password, confirmPassword)) {
             return
         }
 
@@ -67,39 +48,47 @@ class SecondActivity : AppCompatActivity(), View.OnClickListener {
                 .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
 
-                    // update UI with the signed-in user's information
-                    val userAuth = mAuth!!.currentUser
-                    writeNewUser(userAuth!!.uid, getUsernameFromEmail(userAuth.email), userAuth.email)
+                    val intent = Intent(this, GetUserDetailsActivity::class.java)
 
-                    val user = User("Ming",userAuth.email)
+                    intent.putExtra(KEY1,editTextUsername.text.toString())
+                    intent.putExtra(KEY2,editTextEmail.text.toString())
 
-                    val userValues = user.toMap()
-                    val childUpdates = HashMap<String,Any>()
-                    val key = userDatabase!!.child("user").push().key
+                    startActivity(intent)
+                    finish()
 
-                    childUpdates.put("/user/" + key, userValues)
-
-                    userDatabase!!.updateChildren(childUpdates)
-
-                    Toast.makeText(applicationContext, "Register successfully!", Toast.LENGTH_SHORT).show()
                 } else {
 
-                    Toast.makeText(applicationContext, "Failed to register!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Email had taken by other user!!", Toast.LENGTH_SHORT).show()
                 }
             }
 
 
     }
 
-    private fun validateForm(email: String, password: String): Boolean {
+    private fun validateForm(username :String ,email: String, password: String, confirmPassword: String): Boolean {
+
+        if (TextUtils.isEmpty(username)) {
+            Toast.makeText(applicationContext, "Please enter your username!", Toast.LENGTH_SHORT).show()
+            return false
+        }
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(applicationContext, "Enter email address!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Please enter your email address!", Toast.LENGTH_SHORT).show()
             return false
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(applicationContext, "Enter password!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Please enter your password!", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (TextUtils.isEmpty(confirmPassword)) {
+            Toast.makeText(applicationContext, "Please enter your confirm password!", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if(!password.equals(confirmPassword)){
+            Toast.makeText(applicationContext, "Your password and confirm password not matched!", Toast.LENGTH_SHORT).show()
             return false
         }
 
@@ -111,57 +100,12 @@ class SecondActivity : AppCompatActivity(), View.OnClickListener {
         return true
     }
 
-    private fun writeNewUser(userId: String, username: String?, email: String?) {
-        val user = User(username, email)
 
-        FirebaseDatabase.getInstance().reference.child("user").child(userId).setValue(user)
+
+    companion object{
+        const val KEY1 = "com.example.dietfitnessplanapp.KEY1"
+        const val KEY2 = "com.example.dietfitnessplanapp.KEY2"
+
     }
-
-    private fun getUsernameFromEmail(email: String?): String {
-        return if (email!!.contains("@")) {
-            email.split("@".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
-        } else {
-            email
-        }
-    }
-
-
-
-
-//        buttonRegister.setOnClickListener{
-//            if(editTextUsername.text.isEmpty()||editTextEmail.text.isEmpty()||editTextPassword.text.isEmpty()||editTextConfirmPassword.text.isEmpty()){
-//                Toast.makeText(context,"Please fill in the form!!!",Toast.LENGTH_SHORT).show()
-//            }else{
-//                if(!editTextPassword.text.toString().equals(editTextConfirmPassword.text.toString())){
-//                    Toast.makeText(context,"Your password and confirm password are not matched !!",Toast.LENGTH_SHORT).show()
-//                }
-//                else{
-//
-//                    val _username= editTextUsername.text.toString()
-//                    val _email=editTextEmail.text.toString()
-//                    val _password=editTextPassword.text.toString()
-//                    val user = User(_username,_email,_password)
-//
-//                    mDatabase!!.setValue(user)
-//
-//                    val intent = Intent(this, GetUserDetailsActivity::class.java)
-//
-//                    intent.putExtra(KEY,_username)
-//
-//                    startActivity(intent)
-//                    Toast.makeText(this, "Register successfully", Toast.LENGTH_SHORT).show()
-//                    finish()
-//                }
-//            }
-//
-//        }
-
-
-
-
-//    companion object{
-//        const val KEY = "com.example.dietfitnessplanapp.KEY"
-//
-//    }
 
 }
