@@ -15,7 +15,7 @@ android {
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId "com.example.dietfitnessplanapp"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -43,7 +43,7 @@ dependencies {
     implementation "com.google.android.material:material:$supportlibVersion"
 
     implementation 'com.google.firebase:firebase-database:16.0.4'
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
 
 
-    implementation 'com.google.firebase:firebase-auth:16.0.5'
 }

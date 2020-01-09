@@ -10,6 +10,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_weight.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -21,6 +22,12 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weight)
+
+//        val expectedWeight = intent.getStringExtra(MainActivity.KEY)
+//        val currentWeight = intent.getStringExtra(MainActivity.KEY2)
+//        textViewStartValue.text= String.format("%s KG",expectedWeight)
+//        textViewCurrentWeightValue.text= String.format("%s KG",expectedWeight)
+//        textViewGoalValue.text= String.format("%s KG",currentWeight)
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)

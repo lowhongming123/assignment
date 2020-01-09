@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "358259952128",
+    "firebase_url": "https://diet-fitness-plan-app.firebaseio.com",
+    "project_id": "diet-fitness-plan-app",
+    "storage_bucket": "diet-fitness-plan-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358259952128:android:fbb8b350693a00008166e5",
+        "android_client_info": {
+          "package_name": "com.example.dietfitnessplanapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358259952128-nd8j9u5me6caecffrd2ss1vi3bhqkks7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dietfitnessplanapp",
+            "certificate_hash": "b8d1172dea54b927cfb75ea625eca93cf6bc56a2"
+          }
+        },
+        {
+          "client_id": "358259952128-c84ih3t5tv386gqj6l9f22u451hcvv0g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFe2WpVH-xqY9vSB9mtqMAy4yHiNqPlEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358259952128-c84ih3t5tv386gqj6l9f22u451hcvv0g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
