@@ -59,8 +59,7 @@ class MainActivity : AppCompatActivity(),View.OnClickListener {
                     val user = mAuth!!.currentUser
                     Toast.makeText(applicationContext, "Login successful", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, WeightActivity::class.java)
-                    it.uuid=user.uid
-                    intent.putExtra(KEY,it)
+                    intent.putExtra(KEY,email)
                     startActivity(intent)
 
 

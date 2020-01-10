@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
+import android.util.Log
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -20,18 +21,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.example.dietfitnessplanapp.User
-
-
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import androidx.core.app.ComponentActivity
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
-
-
+import androidx.core.content.ContextCompat.getSystemService
 
 
 class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -39,23 +33,42 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
     private val TAG = "WeightActivity"
 
-
-
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
+
+    private val db = FirebaseDatabase.getInstance()
+    private val users = db.getReference("user")
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weight)
 
+        val _email = intent.getStringExtra(MainActivity.KEY)
+
+        val userListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                val user = dataSnapshot.getValue(User::class.java)
+
+
+                    textViewGoalValue.text = user?.expectedWeight.toString()
+                    textViewStartValue.text = user?.currentWeight.toString()
+                    textViewCurrentWeightValue.text = user?.currentWeight.toString()
 
 
 
+            }
 
-//        textViewStartValue.text= String.format("%s KG",expectedWeight)
-//        textViewCurrentWeightValue.text= String.format("%s KG",expectedWeight)
-//        textViewGoalValue.text= String.format("%s KG",currentWeight)
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                // ...
+            }
+        }
+        users.addValueEventListener(userListener)
+
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -69,7 +82,6 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
-
 
 
     }
