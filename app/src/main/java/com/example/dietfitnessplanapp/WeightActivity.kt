@@ -1,5 +1,6 @@
 package com.example.dietfitnessplanapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -25,50 +26,64 @@ import androidx.core.app.ComponentActivity
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.widget.ListView
 import androidx.core.content.ContextCompat.getSystemService
-
+import kotlinx.android.synthetic.main.nav_header.*
 
 class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
     private val TAG = "WeightActivity"
-
+    private var mAuth: FirebaseAuth? = null
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
-
-    private val db = FirebaseDatabase.getInstance()
-    private val users = db.getReference("user")
+    var _currentWeight : Int = 0
+    var _expectedWeight : Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weight)
 
-        val _email = intent.getStringExtra(MainActivity.KEY)
 
-        val userListener = object : ValueEventListener {
+        val _userId = intent.getStringExtra(MainActivity.KEY)
+        val databaseReference : DatabaseReference = FirebaseDatabase.getInstance().getReference().child("user").child(_userId)
+        var _email : String? = null
+        var _username :String? = null
+        var _userTarget : String? = null
+        var _goal : Int? = 0
+
+        databaseReference.addValueEventListener(object : ValueEventListener{
+
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Get Post object and use the values to update the UI
-                val user = dataSnapshot.getValue(User::class.java)
+                _currentWeight = dataSnapshot.child("currentweight").getValue().toString().toInt()
+                _expectedWeight = dataSnapshot.child("expectedweight").getValue().toString().toInt()
+                _userTarget = dataSnapshot.child("usertarget").getValue().toString()
+                _email = dataSnapshot.child("email").getValue().toString()
+                _username = dataSnapshot.child("username").getValue().toString()
 
 
-                    textViewGoalValue.text = user?.expectedWeight.toString()
-                    textViewStartValue.text = user?.currentWeight.toString()
-                    textViewCurrentWeightValue.text = user?.currentWeight.toString()
+                if(_userTarget.equals("Lose Weight")){
+                    _goal = _currentWeight - _expectedWeight
+                }else if(_userTarget.equals("Gain Weight")){
+                    _goal = _currentWeight + _expectedWeight
+                }else{
+                    _goal = 0
+                }
 
+                textViewCurrentWeightValue.text = String.format("%s KG",  _currentWeight.toString())
+                textViewStartValue.text = String.format("%s KG",  _currentWeight.toString())
+                textViewGoalValue.text = String.format("%s KG",  _goal.toString())
 
-
+                textViewUserProfileEmail.text = _email.toString()
+                textViewUserProfileName.text = _username.toString()
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
-                // ...
-            }
-        }
-        users.addValueEventListener(userListener)
+            override fun onCancelled(p0: DatabaseError) {
 
+            }
+        })
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -87,12 +102,16 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
+        mAuth = FirebaseAuth.getInstance()
+        val user = mAuth!!.currentUser
+
         when (item.itemId) {
             R.id.nav_help -> {
                 Toast.makeText(this, "Help clicked", Toast.LENGTH_SHORT).show()
             }
             R.id.nav_weight -> {
-                Toast.makeText(this, "Weight clicked", Toast.LENGTH_SHORT).show()
+
             }
             R.id.nav_diary -> {
                 Toast.makeText(this, "Diary clicked", Toast.LENGTH_SHORT).show()
@@ -101,13 +120,14 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 Toast.makeText(this, "Update clicked", Toast.LENGTH_SHORT).show()
             }
             R.id.nav_logout -> {
-                Toast.makeText(this, "Sign out clicked", Toast.LENGTH_SHORT).show()
+                mAuth!!.signOut()
+                Toast.makeText(this, "Signed out...", Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
-
 
 
 }

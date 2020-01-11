@@ -56,6 +56,7 @@ class GetUserDetailsActivity : AppCompatActivity() {
             } else {
 
                 val _email = intent.getStringExtra(SecondActivity.KEY2)
+                val _userId = intent.getStringExtra(SecondActivity.KEY3)
 
                 // Get the clicked radio button instance
                 val radio: RadioButton = findViewById(radioGroup.checkedRadioButtonId)
@@ -84,9 +85,8 @@ class GetUserDetailsActivity : AppCompatActivity() {
                 )
                 val userValues = user.toMap()
                 val childUpdates = HashMap<String, Any>()
-                val key = userDatabase!!.child("user").push().key
 
-                childUpdates.put("/user/" + key, userValues)
+                childUpdates.put("/user/" + _userId, userValues)
 
                 userDatabase!!.updateChildren(childUpdates)
                 Toast.makeText(applicationContext, "Register successfully!!", Toast.LENGTH_SHORT)

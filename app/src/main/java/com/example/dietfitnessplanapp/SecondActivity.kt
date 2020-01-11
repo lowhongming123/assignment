@@ -49,9 +49,11 @@ class SecondActivity : AppCompatActivity(), View.OnClickListener {
                 if (task.isSuccessful) {
 
                     val intent = Intent(this, GetUserDetailsActivity::class.java)
+                    val user = mAuth!!.currentUser
 
                     intent.putExtra(KEY1,editTextUsername.text.toString())
                     intent.putExtra(KEY2,editTextEmail.text.toString())
+                    intent.putExtra(KEY3,user!!.uid)
 
                     startActivity(intent)
                     finish()
@@ -105,6 +107,7 @@ class SecondActivity : AppCompatActivity(), View.OnClickListener {
     companion object{
         const val KEY1 = "com.example.dietfitnessplanapp.KEY1"
         const val KEY2 = "com.example.dietfitnessplanapp.KEY2"
+        const val KEY3 = "com.example.dietfitnessplanapp.KEY3"
 
     }
 

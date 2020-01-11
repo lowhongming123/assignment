@@ -18,16 +18,16 @@
         app:srcCompat="@drawable/profile" />
 
     <TextView
+        android:id="@+id/textViewUserProfileName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Deskton"
         android:textColor="#FFFFFF"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/textViewUserProfileEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="deskton@gmail.com"
-        android:textColor="#FFFFFF"/>
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

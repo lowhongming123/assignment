@@ -31,7 +31,14 @@
     <string name="height">CM</string>
     <string name="ques6">What is your country?</string>
     <string name="submit">Submit</string>
+    <string name="edit">Edit</string>
     <string name="required">Please fill in the input!!</string>
+    <string name="name">Name :</string>
+    <string name="gender">Gender :</string>
+    <string name="email2">Email :</string>
+    <string name="country">Country :</string>
+    <string name="currentWeight2">Current Weight :</string>
+    <string name="expectedWeight">Expected Weight :</string>
 
     <string-array name="country">
         <item>Malaysia</item>
