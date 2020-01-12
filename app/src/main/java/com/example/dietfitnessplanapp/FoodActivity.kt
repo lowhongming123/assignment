@@ -30,9 +30,7 @@ class FoodActivity : AppCompatActivity() {
     private var foodDatabase: DatabaseReference? = null
     //to get the current database pointer
     private var foodReference: DatabaseReference? = null
-    private var foodListener: ChildEventListener? = null
 
-    //no need
     private var foodAdapter: FirebaseRecyclerAdapter<Food, FoodViewHolder>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +42,7 @@ class FoodActivity : AppCompatActivity() {
         //to access to the table
         foodReference = FirebaseDatabase.getInstance().getReference("Food")
 
-        firebaseListenerInit()
+
         foodRecycleView.layoutManager = LinearLayoutManager(this)
         //val query = foodReference!!.limitToLast(8)
         val query = foodReference!!.orderByChild("foodName")
@@ -71,48 +69,10 @@ class FoodActivity : AppCompatActivity() {
 
     }
 
-    private fun firebaseListenerInit() {
-        val childEventListener = object: ChildEventListener{
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.e(TAG, "postMessages:onCancelled", databaseError!!.toException())
-                //Toast.makeText(this, "Failed to load Message.", Toast.LENGTH_SHORT).show()
-            }
 
-            override fun onChildMoved(dataSnapshot: DataSnapshot, food: String?) {
-                Log.e(TAG, "onChildMoved:" + dataSnapshot!!.key)
-
-                // A food has changed position
-                val food = dataSnapshot.getValue(Food::class.java)
-                //toast here
-            }
-
-            override fun onChildChanged(dataSnapshot: DataSnapshot, food: String?) {
-                Log.e(TAG, "onChildChanged: " + dataSnapshot!!.key)
-
-                val food = dataSnapshot.getValue(Food::class.java)
-                //toast here
-            }
-
-            override fun onChildAdded(dataSnapshot: DataSnapshot, food: String?) {
-                val food = dataSnapshot!!.getValue(Food::class.java)
-
-                Log.e(TAG, "onChildAdded:" + food!!)
-            }
-
-            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-                Log.e(TAG, "onChildRemoved:" + dataSnapshot!!.key)
-
-                // A message has been removed
-                val food = dataSnapshot.getValue(Food::class.java)
-            }
-        }
-    }
     override fun onStop() {
         super.onStop()
 
-        if (foodListener != null) {
-            foodReference!!.removeEventListener(foodListener!!)
-        }
     }
 
     override fun onDestroy() {

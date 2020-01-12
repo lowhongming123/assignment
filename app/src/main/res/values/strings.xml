@@ -45,6 +45,13 @@
     <string name="food_description">Food Description</string>
     <string name="save">Save</string>
     <string name="nutrition">NutritionList</string>
+    <string name="customerservice">Customer Service</string>
+    <string name="msg3">How Can We Help You ?</string>
+    <string name="search">Search</string>
+    <string name="msg4">Please Contact Us</string>
+    <string name="phonenumber">+6019-9988802</string>
+    <string name="email3">dietfitness99@hotmail.com</string>
+    <string name="title">Recommended Food</string>
 
     <string-array name="country">
         <item>Malaysia</item>

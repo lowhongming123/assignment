@@ -23,7 +23,7 @@ class UpdateProfileFragment : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_update)
+        setContentView(R.layout.content_update)
 
         
         val _userId = intent.getStringExtra(WeightActivity.KEY4)

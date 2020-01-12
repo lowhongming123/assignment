@@ -1,6 +1,8 @@
 package com.example.dietfitnessplanapp
 
 import android.content.Intent
+import android.content.Intent.ACTION_VIEW
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -16,18 +18,39 @@ import kotlinx.android.synthetic.main.content_weight.*
 import kotlinx.android.synthetic.main.activity_weight.*
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
+import com.firebase.ui.database.ChangeEventListener
+import com.firebase.ui.database.FirebaseRecyclerAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.nav_header.*
+import kotlinx.android.synthetic.main.food_layout.view.*
+import java.util.*
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.util.Log
+import com.example.dietfitnessplanapp.FoodViewHolder
+import androidx.recyclerview.widget.RecyclerView
+import androidx.core.app.ComponentActivity
+
+
+
 
 
 class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
     private val TAG = "WeightActivity"
+    private val REQUIRED = "Required"
+
+    //access database table
+    private var foodDatabase: DatabaseReference? = null
+    //to get the current database pointer
+    private var foodReference: DatabaseReference? = null
+
+
+    private var foodAdapter: FirebaseRecyclerAdapter<Food, FoodViewHolder>? = null
+
     private var mAuth: FirebaseAuth? = null
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
@@ -35,6 +58,10 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
     var _currentWeight : Int = 0
     var _expectedWeight : Int = 0
+    var _email : String? = null
+    var _username :String? = null
+    var _userTarget : String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +69,7 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
 
         val _userId = intent.getStringExtra(MainActivity.KEY)
-        val databaseReference : DatabaseReference = FirebaseDatabase.getInstance().getReference().child("user").child(_userId)
-        var _email : String? = null
-        var _username :String? = null
-        var _userTarget : String? = null
-        var _goal : Int? = 0
+        val databaseReference : DatabaseReference = FirebaseDatabase.getInstance().getReference().child("user").child(_userId!!)
 
         databaseReference.addValueEventListener(object : ValueEventListener{
 
@@ -72,6 +95,73 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         })
 
 
+
+        //to get the root folder
+        foodDatabase = FirebaseDatabase.getInstance().reference
+        //to access to the table
+        foodReference = FirebaseDatabase.getInstance().getReference("Food")
+
+
+        foodRecycleView2.layoutManager = LinearLayoutManager(this)
+        //val query = foodReference!!.limitToLast(8)
+        val query = foodReference!!.orderByChild("foodName")
+        foodAdapter = object: FirebaseRecyclerAdapter<Food, FoodViewHolder>(
+            Food::class.java, R.layout.food_layout, FoodViewHolder::class.java,query
+        ){
+            override fun populateViewHolder(viewHolder: FoodViewHolder?, model: Food?, position: Int) {
+
+                if(_userTarget.equals("Lose Weight")){
+                    if(model!!.foodCaloriesType.equals("Low")){
+                        viewHolder!!.itemView.setVisibility(View.VISIBLE)
+                        viewHolder!!.itemView.setLayoutParams(RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+
+//                        viewHolder.setIsRecyclable(true)
+                    }else{
+                        viewHolder!!.itemView.setVisibility(View.GONE)
+                        viewHolder!!.itemView.setLayoutParams(RecyclerView.LayoutParams(0, 0))
+                    }
+                }else if(_userTarget.equals("Gain Weight")){
+
+                    if(model!!.foodCaloriesType.equals("High")){
+                        viewHolder!!.itemView.setVisibility(View.VISIBLE)
+                        viewHolder!!.itemView.setLayoutParams(RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+
+//                        viewHolder.setIsRecyclable(true)
+                    }else{
+                        viewHolder!!.itemView.setVisibility(View.GONE)
+                        viewHolder!!.itemView.setLayoutParams(RecyclerView.LayoutParams(0, 0))
+                    }
+                }else if(_userTarget.equals("Maintain Weight")){
+
+                    if(model!!.foodCaloriesType.equals("Moderate")){
+                        viewHolder!!.itemView.setVisibility(View.VISIBLE)
+                        viewHolder!!.itemView.setLayoutParams(RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+
+//                        viewHolder.setIsRecyclable(true)
+                    }else{
+                        viewHolder!!.itemView.setVisibility(View.GONE)
+                        viewHolder!!.itemView.setLayoutParams(RecyclerView.LayoutParams(0, 0))
+                    }
+                }
+
+                viewHolder!!.bindFood(model)
+            }
+
+            override fun onChildChanged(
+                type: ChangeEventListener.EventType?,
+                snapshot: DataSnapshot?,
+                index: Int,
+                oldIndex: Int
+            ) {
+                super.onChildChanged(type, snapshot, index, oldIndex)
+                foodRecycleView2.scrollToPosition(index)
+            }
+
+
+        }
+        foodRecycleView2.adapter = foodAdapter
+
+
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -91,12 +181,12 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         mAuth = FirebaseAuth.getInstance()
-        val user = mAuth!!.currentUser
         val _userId = intent.getStringExtra(MainActivity.KEY)
 
         when (item.itemId) {
             R.id.nav_help -> {
-                Toast.makeText(this, "Help clicked", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, CustomerService::class.java)
+                startActivity(intent)
             }
             R.id.nav_weight -> {
 
@@ -122,6 +212,16 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
 
 
+
+    override fun onStop() {
+        super.onStop()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        foodAdapter!!.cleanup()
+    }
 
     companion object{
         const val KEY4 = "com.example.dietfitnessplanapp.KEY4"
