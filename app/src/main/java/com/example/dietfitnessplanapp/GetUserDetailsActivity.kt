@@ -32,6 +32,7 @@ class GetUserDetailsActivity : AppCompatActivity() {
     //read data
     private var userListener:ChildEventListener? = null
 
+    var _expectedWeight : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +46,7 @@ class GetUserDetailsActivity : AppCompatActivity() {
 
 
         val _username = intent.getStringExtra(SecondActivity.KEY1)
+
         textViewWelcome.text = String.format("Welcome , %s ", _username)
 
         buttonSubmit.setOnClickListener {
@@ -62,24 +64,35 @@ class GetUserDetailsActivity : AppCompatActivity() {
                 val radio: RadioButton = findViewById(radioGroup.checkedRadioButtonId)
                 val _userTarget = radio.text.toString()
 
-                val _expectedWeight = editTextWeight.text.toString()
+                val _tempWeight = editTextWeight.text.toString().toInt()
                 val radio2: RadioButton = findViewById(radioGroup2.checkedRadioButtonId)
                 val _gender = radio2.text.toString()
 
-                val _currentWeight = editTextWeight2.text.toString()
+                val _currentWeight = editTextWeight2.text.toString().toInt()
                 val _currentHeight = editTextHeight.text.toString()
 
                 val mySpinner = findViewById(com.example.dietfitnessplanapp.R.id.spinner) as Spinner
                 val _country = mySpinner.getSelectedItem().toString()
 
 
+                if(_userTarget.equals("Lose Weight")){
+                    _expectedWeight=_currentWeight - _tempWeight
+
+                }else if(_userTarget.equals("Gain Weight")) {
+
+                    _expectedWeight = _currentWeight + _tempWeight
+
+                }else{
+                    _expectedWeight = _currentWeight
+                }
+
                 val user = User(
                     _username,
                     _email,
                     _userTarget,
-                    _expectedWeight.toInt(),
+                    _expectedWeight,
                     _gender,
-                    _currentWeight.toInt(),
+                    _currentWeight,
                     _currentHeight.toInt(),
                     _country
                 )

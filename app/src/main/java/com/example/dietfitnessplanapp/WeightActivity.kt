@@ -12,7 +12,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_weight.*
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.content_weight.*
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -38,9 +38,9 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
+
     var _currentWeight : Int = 0
     var _expectedWeight : Int = 0
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,17 +64,9 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 _username = dataSnapshot.child("username").getValue().toString()
 
 
-                if(_userTarget.equals("Lose Weight")){
-                    _goal = _currentWeight - _expectedWeight
-                }else if(_userTarget.equals("Gain Weight")){
-                    _goal = _currentWeight + _expectedWeight
-                }else{
-                    _goal = 0
-                }
-
                 textViewCurrentWeightValue.text = String.format("%s KG",  _currentWeight.toString())
                 textViewStartValue.text = String.format("%s KG",  _currentWeight.toString())
-                textViewGoalValue.text = String.format("%s KG",  _goal.toString())
+                textViewGoalValue.text = String.format("%s KG",  _expectedWeight.toString())
 
                 textViewUserProfileEmail.text = _email.toString()
                 textViewUserProfileName.text = _username.toString()
@@ -84,6 +76,7 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
             }
         })
+
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -98,13 +91,13 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
 
-
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         mAuth = FirebaseAuth.getInstance()
         val user = mAuth!!.currentUser
+
 
         when (item.itemId) {
             R.id.nav_help -> {
@@ -117,7 +110,7 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 Toast.makeText(this, "Diary clicked", Toast.LENGTH_SHORT).show()
             }
             R.id.nav_updateProfile -> {
-                Toast.makeText(this, "Update clicked", Toast.LENGTH_SHORT).show()
+                moveToUpdate()
             }
             R.id.nav_logout -> {
                 mAuth!!.signOut()
@@ -129,5 +122,9 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         return true
     }
 
+    private fun moveToUpdate(){
+        val intent = Intent(this, UpdateProfile::class.java)
+        startActivity(intent)
+    }
 
 }
