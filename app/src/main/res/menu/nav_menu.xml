@@ -5,11 +5,13 @@
         <item
             android:id="@+id/nav_weight"
             android:icon="@drawable/ic_weight"
-            android:title="Weight"/>
+            android:title="Weight"
+            android:actionLayout="@layout/activity_weight"
+            android:checked="true"/>
         <item
-            android:id="@+id/nav_diary"
-            android:icon="@drawable/ic_diary"
-            android:title="Diary"/>
+            android:id="@+id/nav_food"
+            android:icon="@drawable/ic_favorite"
+            android:title="Food" />
         <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_help"
@@ -22,6 +24,7 @@
             <item
                 android:id="@+id/nav_updateProfile"
                 android:icon="@drawable/ic_update"
+                android:actionLayout="@layout/fragment_update"
                 android:title="Update Profile"/>
             <item
                 android:id="@+id/nav_logout"

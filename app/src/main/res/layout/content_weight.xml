@@ -68,7 +68,7 @@
         <TextView
             android:id="@+id/textViewCurrentWeightValue"
             style="@style/labelStyle1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="@+id/textViewCurrentWeight"

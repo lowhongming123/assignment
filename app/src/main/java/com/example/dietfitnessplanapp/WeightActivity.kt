@@ -4,31 +4,25 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import android.util.Log
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.activity_weight.*
 import kotlinx.android.synthetic.main.content_weight.*
+import kotlinx.android.synthetic.main.activity_weight.*
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.example.dietfitnessplanapp.User
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.widget.ListView
-import androidx.core.content.ContextCompat.getSystemService
 import kotlinx.android.synthetic.main.nav_header.*
+
 
 class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -91,13 +85,14 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
 
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         mAuth = FirebaseAuth.getInstance()
         val user = mAuth!!.currentUser
-
+        val _userId = intent.getStringExtra(MainActivity.KEY)
 
         when (item.itemId) {
             R.id.nav_help -> {
@@ -106,11 +101,15 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             R.id.nav_weight -> {
 
             }
-            R.id.nav_diary -> {
-                Toast.makeText(this, "Diary clicked", Toast.LENGTH_SHORT).show()
+            R.id.nav_food -> {
+                val intent = Intent(this, FoodActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_updateProfile -> {
-                moveToUpdate()
+                val intent = Intent(this, UpdateProfileFragment::class.java)
+                intent.putExtra(KEY4,_userId)
+                startActivity(intent)
+
             }
             R.id.nav_logout -> {
                 mAuth!!.signOut()
@@ -122,9 +121,11 @@ class WeightActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         return true
     }
 
-    private fun moveToUpdate(){
-        val intent = Intent(this, UpdateProfile::class.java)
-        startActivity(intent)
+
+
+    companion object{
+        const val KEY4 = "com.example.dietfitnessplanapp.KEY4"
+
     }
 
 }

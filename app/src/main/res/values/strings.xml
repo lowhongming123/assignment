@@ -39,6 +39,12 @@
     <string name="country">Country :</string>
     <string name="currentWeight2">Current Weight :</string>
     <string name="expectedWeight">Expected Weight :</string>
+    <string name="food_image">Food Image</string>
+    <string name="food_name">Food Name</string>
+    <string name="food_calories">Food Calories</string>
+    <string name="food_description">Food Description</string>
+    <string name="save">Save</string>
+    <string name="nutrition">NutritionList</string>
 
     <string-array name="country">
         <item>Malaysia</item>
